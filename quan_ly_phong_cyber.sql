@@ -166,7 +166,6 @@ INSERT INTO [MayTinh]
       ([TenMayTinh], [DiaChi_IP], [ViTriPhong], [LouHuaGiaBan], [GiaThueGioTinh],
        [NamPhatHanhMay], [TrangThaiMay], [LanBaoTriGanNhat], [GhiChu])
 VALUES
-      -- ═══════ Phòng VIP (4 máy) ═══════
       (N'VIP-01', '192.168.1.1',  N'Phong VIP', 25000.000, 35000, 2024, N'Dang_Su_Dung', '2026-04-01',
   N'Máy cấu hình cao'),
       (N'VIP-02', '192.168.1.2',  N'Phong VIP', 25000.000, 35000, 2024, N'San_Sang',     '2026-04-01',
@@ -176,7 +175,6 @@ VALUES
       (N'VIP-04', '192.168.1.4',  N'Phong VIP', 28000.000, 40000, 2025, N'Bao_Tri',      '2026-04-20',
   N'Đang nâng cấp RAM'),
 
-      -- ═══════ Phòng 1 (4 máy) ═══════
       (N'P1-01',  '192.168.2.1',  N'Phong 1',   15000.000, 15000, 2022, N'San_Sang',     '2026-03-10',
   NULL),
       (N'P1-02',  '192.168.2.2',  N'Phong 1',   15000.000, 15000, 2022, N'Dang_Su_Dung', '2026-03-10',
@@ -186,7 +184,6 @@ VALUES
       (N'P1-04',  '192.168.2.4',  N'Phong 1',   16000.000, 18000, 2023, N'San_Sang',     '2026-04-10',
   NULL),
 
-      -- ═══════ Phòng 2 (4 máy) ═══════
       (N'P2-01',  '192.168.3.1',  N'Phong 2',   18000.000, 20000, 2023, N'San_Sang',     '2026-04-05',
   NULL),
       (N'P2-02',  '192.168.3.2',  N'Phong 2',   18000.000, 20000, 2023, N'Dang_Su_Dung', '2026-04-05',
@@ -202,7 +199,6 @@ INSERT INTO [HoaDon]
        [TongTienCanThanhToan], [TrangThaiThanhToan], [NguoiThanhToan],
        [NgayThanhToan], [PhuongThucThanhToan], [GhiChu])
 VALUES
-      -- ══ Thành viên 1 (Nguyễn Văn An) — 3 hóa đơn ══
       (1, 101, '2026-01-10 08:00', '2026-01-10 13:00',
        5.00, 35000, 175000, 25000,
        200000, N'Da_Thanh_Toan', N'Nguyễn Văn An',
@@ -218,7 +214,6 @@ VALUES
        90000, N'Chua_Thanh_Toan', NULL,
        NULL, NULL, N'Chưa thanh toán'),
 
-      -- ══ Thành viên 2 (Trần Thị Bích) — 2 hóa đơn ══
       (2, 106, '2026-01-20 10:00', '2026-01-20 12:00',
        2.00, 15000, 30000, 10000,
        40000, N'Da_Thanh_Toan', N'Trần Thị Bích',
@@ -229,7 +224,6 @@ VALUES
        80000, N'Da_Thanh_Toan', N'Trần Thị Bích',
        '2026-03-08 18:10', N'Vi_Dien_Tu', NULL),
 
-      -- ══ Thành viên 3 (Lê Hoàng Cường) — 4 hóa đơn ══
       (3, 101, '2026-01-05 20:00', '2026-01-06 02:00',
        6.00, 35000, 210000, 50000,
        260000, N'Da_Thanh_Toan', N'Lê Hoàng Cường',
@@ -250,7 +244,6 @@ VALUES
        500000, N'Da_Thanh_Toan', N'Lê Hoàng Cường',
        '2026-04-10 20:20', N'Chuyen_Khoan', N'Giải đấu'),
 
-      -- ══ Thành viên 5 (Hoàng Thị Lan) — 2 hóa đơn ══
       (5, 102, '2026-02-05 13:00', '2026-02-05 16:00',
        3.00, 35000, 105000, 0,
        105000, N'Da_Thanh_Toan', N'Hoàng Thị Lan',
@@ -261,7 +254,6 @@ VALUES
        87000, N'Da_Thanh_Toan', N'Hoàng Thị Lan',
        '2026-03-25 14:10', N'Vi_Dien_Tu', NULL),
 
-      -- ══ Thành viên 6 (Võ Đức Mạnh) — 3 hóa đơn ══
       (6, 101, '2026-01-18 22:00', '2026-01-19 04:00',
        6.00, 35000, 210000, 60000,
        270000, N'Da_Thanh_Toan', N'Võ Đức Mạnh',
@@ -277,13 +269,11 @@ VALUES
        120000, N'Hoan_Tien', N'Võ Đức Mạnh',
        '2026-04-15 19:30', N'Chuyen_Khoan', N'Máy lỗi hoàn tiền'),
 
-      -- ══ Thành viên 7 (Đặng Thùy Ngọc) — 1 hóa đơn ══
       (7, 105, '2026-04-01 08:00', '2026-04-01 10:00',
        2.00, 15000, 30000, 0,
        30000, N'Da_Thanh_Toan', N'Đặng Thùy Ngọc',
        '2026-04-01 10:05', N'Tien_Mat', NULL),
 
-      -- ══ Thành viên 8 (Bùi Quốc Phong) — 3 hóa đơn ══
       (8, 103, '2026-01-25 09:00', '2026-01-25 18:00',
        9.00, 40000, 360000, 70000,
        430000, N'Da_Thanh_Toan', N'Bùi Quốc Phong',
@@ -299,19 +289,16 @@ VALUES
        125000, N'Da_Thanh_Toan', N'Bùi Quốc Phong',
        '2026-04-05 20:10', N'Vi_Dien_Tu', NULL),
 
-      -- ══ Thành viên 10 (Ngô Thanh Sơn) — 1 hóa đơn ══
       (10, 108, '2026-04-18 16:00', '2026-04-18 19:00',
        3.00, 18000, 54000, 0,
        54000, N'Chua_Thanh_Toan', NULL,
        NULL, NULL, N'Thành viên mới'),
 
-      -- ══ Thành viên 3 — đang dùng máy (chưa kết thúc) ══
       (3, 101, '2026-04-23 08:00', NULL,
        NULL, 35000, NULL, NULL,
        NULL, N'Chua_Thanh_Toan', NULL,
        NULL, NULL, N'Đang sử dụng'),
 
-      -- ══ Thành viên 6 — đang dùng máy (chưa kết thúc) ══
       (6, 110, '2026-04-23 09:30', NULL,
        NULL, 20000, NULL, NULL,
        NULL, N'Chua_Thanh_Toan', NULL,
@@ -439,7 +426,7 @@ CREATE PROCEDURE sp_NapTienTaiKhoan
           SET @SoGio = 1;
 
       SET @ThanhTienMay = @SoGio * @GiaThue;
-      SET @TongTienThanhToan = @ThanhTienMay + @DichVuThem;    -- ← Gán vào OUTPUT
+      SET @TongTienThanhToan = @ThanhTienMay + @DichVuThem; 
 
       UPDATE [HoaDon]
       SET
@@ -535,7 +522,7 @@ CREATE PROCEDURE sp_LichSuSuDungChiTiet
 
 DECLARE @TienPhaiTra DECIMAL(10,2);
 EXEC sp_TinhTienPhien
-    @MaHoaDon          = 1021,         -- Hóa đơn của TV 3 đang dùng VIP-01
+    @MaHoaDon          = 1021,        
     @TongTienThanhToan  = @TienPhaiTra OUTPUT;
 PRINT N'';
   PRINT N'══════════════════════════════════';
@@ -554,3 +541,61 @@ DECLARE @Tien DECIMAL(10,2);
  EXEC sp_LichSuSuDungChiTiet
       @TuNgay  = '2026-12-31',
       @DenNgay = '2026-01-01';
+GO
+
+CREATE TRIGGER trg_HoaDon_Insert_CapNhatMay
+  ON [HoaDon]
+  AFTER INSERT
+  AS
+  BEGIN
+      SET NOCOUNT ON;
+      IF EXISTS (
+          SELECT 1
+          FROM INSERTED i
+          INNER JOIN [MayTinh] mt ON i.MaMayTinh = mt.MaMayTinh
+          WHERE mt.TrangThaiMay != N'San_Sang'
+      )
+      BEGIN
+          RAISERROR(N'Máy tính không ở trạng thái Sẵn sàng — không thể tạo hóa đơn.', 16, 1);
+          ROLLBACK TRANSACTION;
+          RETURN;
+      END;
+      UPDATE mt
+      SET mt.TrangThaiMay = N'Dang_Su_Dung'
+      FROM [MayTinh] mt
+      INNER JOIN INSERTED i ON mt.MaMayTinh = i.MaMayTinh;
+
+      PRINT N'Trigger: Máy đã chuyển sang trạng thái "Đang sử dụng".';
+  END;
+  GO
+
+  CREATE TRIGGER trg_HoaDon_Update_TraMay
+  ON [HoaDon]
+  AFTER UPDATE
+  AS
+  BEGIN
+      SET NOCOUNT ON;
+      IF EXISTS (
+          SELECT 1
+          FROM INSERTED i
+          INNER JOIN DELETED d ON i.MaHoaDon = d.MaHoaDon
+          WHERE d.ThoiGianKetThuc IS NULL      
+            AND i.ThoiGianKetThuc IS NOT NULL     
+      )
+      BEGIN
+          UPDATE mt
+          SET mt.TrangThaiMay = N'San_Sang'
+          FROM [MayTinh] mt
+          INNER JOIN INSERTED i ON mt.MaMayTinh = i.MaMayTinh
+          INNER JOIN DELETED d  ON i.MaHoaDon = d.MaHoaDon
+          WHERE d.ThoiGianKetThuc IS NULL
+            AND i.ThoiGianKetThuc IS NOT NULL;
+
+          PRINT N'Trigger: Máy đã chuyển về trạng thái "Sẵn sàng".';
+      END;
+  END;
+  GO
+
+  SELECT MaMayTinh, TenMayTinh, TrangThaiMay
+  FROM [MayTinh]
+  WHERE MaMayTinh = 102; 

@@ -315,13 +315,13 @@ Khai thác:
 
 ## Phần 4: Trigger và Xử lý logic nghiệp vụ
 
-Bài toán nghiệp vụ
+Bài toán nghiệp vụ:
 
     Thực tế phòng game: Khi nhân viên tạo hóa đơn mới (INSERT vào HoaDon) nghĩa là khách bắt đầu ngồi máy → máy đó phải tự động chuyển sang trạng thái Dang_Su_Dung trong bảng MayTinh.
     Ngược lại, khi hóa đơn được cập nhật ThoiGianKetThuc (UPDATE HoaDon) nghĩa là khách rời máy → máy đó phải tự động chuyển về San_Sang.
     Nếu không có trigger, nhân viên phải nhớ cập nhật tay → dễ quên → dữ liệu sai.
 
-Sơ đồ nghiệp vụ
+Sơ đồ nghiệp vụ:
 
     Khách vào ngồi máy              Khách rời máy
         │                               │
@@ -335,4 +335,21 @@ Sơ đồ nghiệp vụ
     │ SET Dang_Su_Dung   │         │ SET San_Sang       │
     └────────────────────┘         └────────────────────┘
 
+### Trigger 1: Khi INSERT hóa đơn → Máy chuyển sang Dang_Su_Dung
+
+![25](images/25.png)
+
+*Code Trigger 1*
+
+### Trigger 2: Khi UPDATE hóa đơn (ghi giờ kết thúc) → Máy chuyển về San_Sang
+
+![26](images/26.png)
+
+*Code Trigger 2*
+
+### Khai thác:
+
+**Xem trạng thái máy trước khi test**
+
+![27](images/27.png)
 
