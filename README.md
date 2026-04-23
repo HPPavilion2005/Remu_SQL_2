@@ -6,3 +6,15 @@ Bài tập hệ quản trị cơ sở dữ liệu số 2 | Sinh viên: Chu Trọ
 
 Database: Quanlyphonggame_K235480106063
 
+![1](images/1.png)
+
+### Khoá chính (PK): 
+
+[MaThanhVien] trong bảng [ThanhVien]: định danh duy nhất cho mỗi thành viên
+
+[MaMayTinh] trong bảng [MayTinh]: Định danh duy nhất cho mỗi máy tính
+
+[MaHoaDon] trong bảng [HoaDon]: Định danh duy nhất cho mỗi hoá đơn
+
+
+
