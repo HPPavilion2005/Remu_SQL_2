@@ -382,3 +382,55 @@ Trigger trên Bảng B (MayTinh) — trigger ngược
 
 *Code vòng lặp*
 
+**Thực hiện thử nghiệm**
+
+![32](images/32.png)
+
+*Đảm bảo máy 103 (VIP-03) đang San_Sang*
+
+![33](images/33.png)
+
+*Tắt tạm trigger MayTinh để UPDATE trên không kích hoạt vòng lặp*
+
+![34](images/34.png)
+
+*Bật lại trigger*
+
+![35](images/35.png)
+
+*INSERT hóa đơn*
+
+**Code trigger không kiểm tra điều kiện (chỉ cho vào file sql chứ không cho chạy)**
+
+![36](images/36.png)
+
+Giả sử nếu chạy thì thông báo lỗi của hệ thống như sau:
+
+    Msg 217, Level 16, State 1, Procedure trg_VONG_LAP_A, Line X
+    Maximum stored procedure, function, trigger, or view nesting level exceeded (limit 32).
+
+Giải thích thông báo:
+
+    ┌────────────────────────┬──────────────────────────────────────────────────────────┐
+    │       Thành phần       │                         Ý nghĩa                          │
+    ├────────────────────────┼──────────────────────────────────────────────────────────┤
+    │ Msg 217                │ Mã lỗi: vượt quá giới hạn lồng nhau (nesting)            │
+    ├────────────────────────┼──────────────────────────────────────────────────────────┤
+    │ Level 16               │ Mức nghiêm trọng: lỗi do người dùng gây ra               │
+    ├────────────────────────┼──────────────────────────────────────────────────────────┤
+    │ State 1                │ Trạng thái lỗi cụ thể                                    │
+    ├────────────────────────┼──────────────────────────────────────────────────────────┤
+    │ Nesting level exceeded │ Trigger gọi nhau vượt quá 32 tầng                        │
+    ├────────────────────────┼──────────────────────────────────────────────────────────┤
+    │ (limit 32)             │ SQL Server cho phép tối đa 32 lần lồng trigger/procedure │
+    └────────────────────────┴──────────────────────────────────────────────────────────┘
+
+### NHẬN XÉT CUỐI CÙNG VỀ TÌNH TRẠNG TRIGGER VÒNG LẶP
+
+| Tình huống | Kết quả | Nguyên nhân |
+| :--- | :--- | :--- |
+| Trigger A → B (1 chiều) | ✅ An toàn | Không có vòng lặp |
+| Trigger A → B → A (có điều kiện dừng) | ✅ An toàn | Chuỗi tự dừng khi điều kiện không khớp |
+| Trigger A ↔ B (không điều kiện dừng) | ❌ **Lỗi Msg 217** | Vòng lặp vượt 32 tầng → ROLLBACK |
+| Trigger A → A (recursive, OFF) | ✅ Không chạy lại | `RECURSIVE_TRIGGERS` mặc định OFF |
+| Trigger A → A (recursive, ON) | ⚠️ Nguy hiểm | Tự gọi chính mình → có thể vượt 32 tầng |

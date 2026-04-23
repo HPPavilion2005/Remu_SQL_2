@@ -641,3 +641,40 @@ CREATE TRIGGER trg_MayTinh_Update_GhiChuHoaDon
       PRINT N'Trigger MayTinh: Đã cập nhật ghi chú hóa đơn.';
   END;
   GO
+
+  UPDATE [MayTinh] SET TrangThaiMay = N'San_Sang' WHERE MaMayTinh = 103;
+  DISABLE TRIGGER trg_MayTinh_Update_GhiChuHoaDon ON [MayTinh];
+  GO
+  ENABLE TRIGGER trg_MayTinh_Update_GhiChuHoaDon ON [MayTinh];
+  GO
+
+   INSERT INTO [HoaDon]
+      ([MaThanhVien], [MaMayTinh], [ThoiGianBatDau], [GiaThueThucTe])
+  VALUES
+      (7, 103, GETDATE(), 40000);
+GO
+--Trigger không kiểm tra điều kiện
+
+CREATE TRIGGER trg_VONG_LAP_A
+  ON [HoaDon]
+  AFTER INSERT, UPDATE
+  AS
+  BEGIN
+      UPDATE [MayTinh]
+      SET GhiChu = N'Cập nhật từ HoaDon lúc ' + CAST(GETDATE() AS NVARCHAR)
+      FROM [MayTinh] mt
+      INNER JOIN INSERTED i ON mt.MaMayTinh = i.MaMayTinh;
+  END;
+  GO
+
+  CREATE TRIGGER trg_VONG_LAP_B
+  ON [MayTinh]
+  AFTER UPDATE
+  AS
+  BEGIN
+      UPDATE [HoaDon]
+      SET GhiChu = N'Cập nhật từ MayTinh lúc ' + CAST(GETDATE() AS NVARCHAR)
+      FROM [HoaDon] hd
+      INNER JOIN INSERTED i ON hd.MaMayTinh = i.MaMayTinh;
+  END;
+  GO
