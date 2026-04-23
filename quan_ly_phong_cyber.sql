@@ -56,3 +56,76 @@ CREATE INDEX [IX_MayTinh_TrangThaiMay] ON [MayTinh]([TrangThaiMay]);
 CREATE INDEX [IX_HoaDon_MaThanhVien] ON [HoaDon]([MaThanhVien]);
 CREATE INDEX [IX_HoaDon_MaMayTinh] ON [HoaDon]([MaMayTinh]);
 CREATE INDEX [IX_HoaDon_TrangThaiThanhToan] ON [HoaDon]([TrangThaiThanhToan]);
+GO
+
+CREATE FUNCTION fn_TongTienDaChi (@MaThanhVien INT)
+  RETURNS DECIMAL(12,2)
+  AS
+  BEGIN
+      DECLARE @TongTien DECIMAL(12,2);
+
+      SELECT @TongTien = ISNULL(SUM(TongTienCanThanhToan), 0)
+      FROM [HoaDon]
+      WHERE [MaThanhVien] = @MaThanhVien
+        AND [TrangThaiThanhToan] = 'Da_Thanh_Toan';
+
+      RETURN @TongTien;
+  END;
+  GO
+
+  CREATE FUNCTION fn_MayTinhTheoPhong (@ViTriPhong NVARCHAR(50))
+  RETURNS TABLE
+  AS
+  RETURN
+  (
+      SELECT
+          MaMayTinh,
+          TenMayTinh,
+          DiaChi_IP,
+          GiaThueGioTinh,
+          TrangThaiMay,
+          NamPhatHanhMay,
+          LanBaoTriGanNhat
+      FROM [MayTinh]
+      WHERE [ViTriPhong] = @ViTriPhong
+  );
+  GO
+
+  CREATE FUNCTION fn_TinhTrangMayTheoPhong ()
+  RETURNS @KetQua TABLE
+  (
+      ViTriPhong       NVARCHAR(50),
+      TongSoMay        INT,
+      MaySanSang       INT,
+      MayDangDung      INT,
+      MayBaoTri        INT,
+      MayHoiHang       INT,
+      TyLeSanSang      DECIMAL(5,2)
+  )
+  AS
+  BEGIN
+      -- Bước 1: Thống kê theo từng phòng
+      INSERT INTO @KetQua (ViTriPhong, TongSoMay, MaySanSang, MayDangDung, MayBaoTri, MayHoiHang,
+  TyLeSanSang)
+      SELECT
+          ViTriPhong,
+          COUNT(*),
+          SUM(CASE WHEN TrangThaiMay = N'San_Sang'      THEN 1 ELSE 0 END),
+          SUM(CASE WHEN TrangThaiMay = N'Dang_Su_Dung'  THEN 1 ELSE 0 END),
+          SUM(CASE WHEN TrangThaiMay = N'Bao_Tri'       THEN 1 ELSE 0 END),
+          SUM(CASE WHEN TrangThaiMay = N'Hoi_Hang'      THEN 1 ELSE 0 END),
+          0  -- Tạm thời
+      FROM [MayTinh]
+      GROUP BY ViTriPhong;
+
+      -- Bước 2: Tính tỷ lệ sẵn sàng (%)
+      UPDATE @KetQua
+      SET TyLeSanSang = CASE
+          WHEN TongSoMay > 0
+          THEN CAST(MaySanSang AS DECIMAL(5,2)) / TongSoMay * 100
+          ELSE 0
+      END;
+
+      RETURN;
+  END;
+  GO
