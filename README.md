@@ -488,14 +488,15 @@ Bài toán nghiệp vụ:
 ![39](images/39.png)
 
 *Tổng hợp kết quả của code Cursor*
-    TV 1 | Nguyễn Văn An    → [Bạc] Chi: 440,000đ | Giờ: 15.00h | Lần: 3 | Thâm niên: 830 ngày
-    TV 2 | Trần Thị Bích    → [Bạc] Chi: 120,000đ | Giờ: 6.00h | Lần: 2 | Thâm niên: 804 ngày
-    TV 3 | Lê Hoàng Cường   → [VIP] Chi: 1,405,000đ | Giờ: 36.00h | Lần: 5 | Thâm niên: 780 ngày
-    TV 5 | Hoàng Thị Lan    → [Bạc] Chi: 192,000đ | Giờ: 7.00h | Lần: 2 | Thâm niên: 712 ngày
-    TV 6 | Võ Đức Mạnh      → [Vàng] Chi: 590,000đ | Giờ: 19.00h | Lần: 4 | Thâm niên: 692 ngày
-    TV 7 | Đặng Thùy Ngọc   → [Thường] Chi: 30,000đ | Giờ: 2.00h | Lần: 1 | Thâm niên: 645 ngày
-    TV 8 | Bùi Quốc Phong   → [Vàng] Chi: 795,000đ | Giờ: 20.00h | Lần: 3 | Thâm niên: 469 ngày
-    TV 10| Ngô Thanh Sơn    → [Thường] Chi: 0đ | Giờ: 3.00h | Lần: 1 | Thâm niên: 323 ngày
+
+  TV 1 | Nguyễn Văn An    → [Bạc] Chi: 440,000đ | Giờ: 15.00h | Lần: 3 | Thâm niên: 830 ngày
+  TV 2 | Trần Thị Bích    → [Bạc] Chi: 120,000đ | Giờ: 6.00h | Lần: 2 | Thâm niên: 804 ngày
+  TV 3 | Lê Hoàng Cường   → [VIP] Chi: 1,405,000đ | Giờ: 36.00h | Lần: 5 | Thâm niên: 780 ngày
+  TV 5 | Hoàng Thị Lan    → [Bạc] Chi: 192,000đ | Giờ: 7.00h | Lần: 2 | Thâm niên: 712 ngày
+  TV 6 | Võ Đức Mạnh      → [Vàng] Chi: 590,000đ | Giờ: 19.00h | Lần: 4 | Thâm niên: 692 ngày
+  TV 7 | Đặng Thùy Ngọc   → [Thường] Chi: 30,000đ | Giờ: 2.00h | Lần: 1 | Thâm niên: 645 ngày
+  TV 8 | Bùi Quốc Phong   → [Vàng] Chi: 795,000đ | Giờ: 20.00h | Lần: 3 | Thâm niên: 469 ngày
+  TV 10| Ngô Thanh Sơn    → [Thường] Chi: 0đ | Giờ: 3.00h | Lần: 1 | Thâm niên: 323 ngày
 
 ### 3. Bài toàn không dùng Cursor:
 
