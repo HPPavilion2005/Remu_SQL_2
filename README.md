@@ -191,5 +191,25 @@ SQL Server có các nhóm hàm chính:
 
 *Phòng cần xử lý gấp (tỷ lệ sẵn sàng < 50%)*
 
+------------------------------------------------
+
+## Phần 3: Xây dựng Store Procedure
+
+### 1. Stored Procedure là gì?
+
+Stored Procedure (SP) là một khối lệnh SQL được lưu sẵn trong database, đặt tên và có thể gọi lại nhiều lần. Giống như viết sẵn một "công thức nấu ăn" — mỗi lần cần chỉ việc gọi tên, không phải viết lại từ đầu.
+
+    ┌──────────────────────────────────────┐
+    │         STORED PROCEDURE             │
+    │                                      │
+    │  Input (@tham_số) ──► Xử lý logic    │
+    │                        │             │
+    │                  ┌─────┴──────┐      │
+    │                  ▼            ▼      │
+    │            OUTPUT trả    Result Set  │
+    │            về giá trị    (bảng KQ)   │
+    └──────────────────────────────────────┘
+
+
 
 
