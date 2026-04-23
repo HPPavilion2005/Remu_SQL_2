@@ -163,17 +163,17 @@ Ta có:
 
     Trả về tổng số tiền mà thành viên đó đã thanh toán thành công
 
-    Kiểu DECIMAL(12,2) → tối đa 9,999,999,999.99 (đủ cho phòng game)
+    Kiểu DECIMAL(12,2) → tối đa 9,999,999,999.99
 
 Logic xử lý bên trong:
 
-  Bảng [HoaDon]
+    Bảng [HoaDon]
 
-  ├── Cột [MaThanhVien]          →  FK liên kết tới bảng [ThanhVien]
+    ├── Cột [MaThanhVien]          →  FK liên kết tới bảng [ThanhVien]
 
-  ├── Cột [TongTienCanThanhToan] →  Số tiền của mỗi hóa đơn
+    ├── Cột [TongTienCanThanhToan] →  Số tiền của mỗi hóa đơn
 
-  └── Cột [TrangThaiThanhToan]   →  'Chua_Thanh_Toan' | 'Da_Thanh_Toan' | 'Hoan_Tien'
+    └── Cột [TrangThaiThanhToan]   →  'Chua_Thanh_Toan' | 'Da_Thanh_Toan' | 'Hoan_Tien'
   
 ## 2. INLINE TABLE-VALUED FUNCTION (Hàm bảng nội tuyến)
 
