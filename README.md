@@ -28,7 +28,7 @@ Database: Quanlyphonggame_K235480106063
 
 [MaMayTinh] trong bảng [HoaDon] → Tham chiếu đến [MayTinh]([MaMayTinh])
 
-* ON DELETE CASCADE: Nếu xóa thành viên, xóa luôn các hoá đơn của thành viên đó
+*ON DELETE CASCADE: Nếu xóa thành viên, xóa luôn các hoá đơn của thành viên đó
 
 ### CHECK CONSTRAINT (CK) - Ràng buộc kiểm tra:
 
