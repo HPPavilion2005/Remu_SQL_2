@@ -193,7 +193,7 @@ SQL Server có các nhóm hàm chính:
 
 ------------------------------------------------
 
-## Phần 3: Xây dựng Store Procedure
+## Phần 3: Xây dựng Store Procedure:
 
 ### 1. Stored Procedure là gì?
 
@@ -231,5 +231,41 @@ Stored Procedure (SP) là một khối lệnh SQL được lưu sẵn trong data
     ├──────────────────┼─────────────────────────┼─────────────────────────────────────┤
     │ sp_helpindex     │ Xem index               │ EXEC sp_helpindex 'HoaDon'          │
     └──────────────────┴─────────────────────────┴─────────────────────────────────────┘
+
+### 2. SP - Insert/Update có kiểm tra điều kiện logic:
+
+Bài toán
+
+    ▎ Nạp tiền vào tài khoản thành viên. Cần kiểm tra:
+    ▎ - Thành viên có tồn tại không?
+    ▎ - Tài khoản có đang hoạt động không?
+    ▎ - Số tiền nạp có hợp lệ không (> 0)?
+
+![12](images/12.png)
+
+*Code Insert/Update*
+
+### 3. SP - Tham số Output
+
+Bài toán
+
+    ▎ Tính tiền cho một phiên sử dụng máy khi khách rời đi. SP cần:
+    ▎ - Cập nhật thời gian kết thúc, số giờ, thành tiền vào bảng HoaDon
+    ▎ - Trả ra ngoài (OUTPUT) tổng tiền phải thanh toán để hiển thị cho nhân viên
+
+![13](images/13.png)
+
+*Code có tham số output*
+
+### 4. SP trả về Result set - Join nhiều bảng
+
+Bài toán
+
+    ▎ Xem lịch sử sử dụng chi tiết: thông tin thành viên + máy đã dùng + hóa đơn. Lọc theo khoảng thời
+    ▎ gian và tùy chọn theo phòng.
+
+![14](images/14.png)
+
+![15](images/15.png)
 
 

@@ -344,4 +344,191 @@ SELECT
       END AS DanhGia
   FROM dbo.fn_TinhTrangMayTheoPhong()
   ORDER BY TyLeSanSang ASC;
+GO
 
+CREATE PROCEDURE sp_NapTienTaiKhoan
+      @MaThanhVien INT,
+      @SoTienNap   DECIMAL(10,2)
+  AS
+  BEGIN
+      IF @SoTienNap <= 0
+      BEGIN
+          PRINT N'Lỗi: Số tiền nạp phải lớn hơn 0.';
+          RETURN;
+      END;
+
+      IF NOT EXISTS (SELECT 1 FROM [ThanhVien] WHERE [MaThanhVien] = @MaThanhVien)
+      BEGIN
+          PRINT N'Lỗi: Không tìm thấy thành viên có mã ' + CAST(@MaThanhVien AS NVARCHAR);
+          RETURN;
+      END;
+
+      DECLARE @TrangThai NVARCHAR(20);
+      SELECT @TrangThai = [TrangThaiTaiKhoan]
+      FROM [ThanhVien]
+      WHERE [MaThanhVien] = @MaThanhVien;
+
+      IF @TrangThai != N'Hoat_Dong'
+      BEGIN
+          PRINT N'Lỗi: Tài khoản đang ở trạng thái "' + @TrangThai
+              + N'" — chỉ tài khoản "Hoat_Dong" mới được nạp tiền.';
+          RETURN;
+      END;
+
+      UPDATE [ThanhVien]
+      SET [SoDuTaiKhoan] = [SoDuTaiKhoan] + @SoTienNap
+      WHERE [MaThanhVien] = @MaThanhVien;
+
+      DECLARE @SoDuMoi DECIMAL(10,2);
+      SELECT @SoDuMoi = [SoDuTaiKhoan]
+      FROM [ThanhVien]
+      WHERE [MaThanhVien] = @MaThanhVien;
+
+      PRINT N'Nạp thành công '
+          + CAST(@SoTienNap AS NVARCHAR)
+          + N' cho thành viên mã '
+          + CAST(@MaThanhVien AS NVARCHAR)
+          + N'. Số dư mới: '
+          + CAST(@SoDuMoi AS NVARCHAR);
+  END;
+  GO
+
+  CREATE PROCEDURE sp_TinhTienPhien
+      @MaHoaDon           INT,
+      @TongTienThanhToan   DECIMAL(10,2) OUTPUT 
+  AS
+  BEGIN
+
+      IF NOT EXISTS (SELECT 1 FROM [HoaDon] WHERE [MaHoaDon] = @MaHoaDon)
+      BEGIN
+          PRINT N'Không tìm thấy hóa đơn mã ' + CAST(@MaHoaDon AS NVARCHAR);
+          SET @TongTienThanhToan = 0;
+          RETURN;
+      END;
+
+      DECLARE @ThoiGianKetThuc DATETIME;
+      SELECT @ThoiGianKetThuc = [ThoiGianKetThuc]
+      FROM [HoaDon]
+      WHERE [MaHoaDon] = @MaHoaDon;
+
+      IF @ThoiGianKetThuc IS NOT NULL
+      BEGIN
+          PRINT N'Hóa đơn này đã được tính tiền trước đó.';
+          SELECT @TongTienThanhToan = [TongTienCanThanhToan]
+          FROM [HoaDon]
+          WHERE [MaHoaDon] = @MaHoaDon;
+          RETURN;
+      END;
+
+      DECLARE @ThoiGianBatDau   DATETIME;
+      DECLARE @GiaThue          DECIMAL(8,2);
+      DECLARE @DichVuThem       DECIMAL(10,2);
+      DECLARE @SoGio            DECIMAL(6,2);
+      DECLARE @ThanhTienMay     DECIMAL(10,2);
+
+      SELECT
+          @ThoiGianBatDau = hd.[ThoiGianBatDau],
+          @GiaThue        = hd.[GiaThueThucTe],
+          @DichVuThem     = ISNULL(hd.[SoTienDichVuThem], 0)
+      FROM [HoaDon] hd
+      WHERE hd.[MaHoaDon] = @MaHoaDon;
+
+      SET @SoGio = CEILING(DATEDIFF(MINUTE, @ThoiGianBatDau, GETDATE()) / 30.0) * 0.5;
+
+      IF @SoGio < 1
+          SET @SoGio = 1;
+
+      SET @ThanhTienMay = @SoGio * @GiaThue;
+      SET @TongTienThanhToan = @ThanhTienMay + @DichVuThem;    -- ← Gán vào OUTPUT
+
+      UPDATE [HoaDon]
+      SET
+          [ThoiGianKetThuc]     = GETDATE(),
+          [SoGioSuDung]         = @SoGio,
+          [ThanhTienDichVu]     = @ThanhTienMay,
+          [TongTienCanThanhToan] = @TongTienThanhToan
+      WHERE [MaHoaDon] = @MaHoaDon;
+
+      PRINT N'Đã tính tiền hóa đơn ' + CAST(@MaHoaDon AS NVARCHAR);
+      PRINT N'   Số giờ: '         + CAST(@SoGio AS NVARCHAR);
+      PRINT N'   Tiền máy: '       + CAST(@ThanhTienMay AS NVARCHAR);
+      PRINT N'   Dịch vụ thêm: '   + CAST(@DichVuThem AS NVARCHAR);
+      PRINT N'   ► TỔNG CỘNG: '    + CAST(@TongTienThanhToan AS NVARCHAR);
+  END;
+  GO
+
+CREATE PROCEDURE sp_LichSuSuDungChiTiet
+      @TuNgay     DATE,
+      @DenNgay    DATE,
+      @ViTriPhong NVARCHAR(50) = NULL  
+  AS
+  BEGIN
+      IF @TuNgay > @DenNgay
+      BEGIN
+          PRINT N'Lỗi: Ngày bắt đầu không được lớn hơn ngày kết thúc.';
+          RETURN;
+      END;
+
+      SELECT
+          tv.MaThanhVien,
+          tv.HoTen,
+          tv.TenDangNhap,
+          tv.SoDienThoai,
+
+          mt.TenMayTinh,
+          mt.ViTriPhong,
+          mt.GiaThueGioTinh           AS GiaNiemYet,
+
+          hd.MaHoaDon,
+          hd.ThoiGianBatDau,
+          hd.ThoiGianKetThuc,
+          hd.SoGioSuDung,
+          hd.GiaThueThucTe,
+          hd.ThanhTienDichVu          AS TienMay,
+          hd.SoTienDichVuThem         AS TienDichVu,
+          hd.TongTienCanThanhToan     AS TongTien,
+          hd.TrangThaiThanhToan,
+          hd.PhuongThucThanhToan
+
+      FROM [HoaDon] hd
+      INNER JOIN [ThanhVien] tv
+          ON hd.MaThanhVien = tv.MaThanhVien
+      INNER JOIN [MayTinh] mt
+          ON hd.MaMayTinh = mt.MaMayTinh
+
+      WHERE
+          CAST(hd.ThoiGianBatDau AS DATE) BETWEEN @TuNgay AND @DenNgay
+          AND (@ViTriPhong IS NULL OR mt.ViTriPhong = @ViTriPhong)
+
+      ORDER BY hd.ThoiGianBatDau DESC;
+
+      SELECT
+          COUNT(*)                                    AS TongSoPhien,
+          ISNULL(SUM(hd.SoGioSuDung), 0)              AS TongSoGio,
+          ISNULL(SUM(CASE
+              WHEN hd.TrangThaiThanhToan = 'Da_Thanh_Toan'
+              THEN hd.TongTienCanThanhToan ELSE 0
+          END), 0)                                     AS TongDoanhThu,
+          COUNT(DISTINCT hd.MaThanhVien)               AS SoThanhVienKhacNhau,
+          COUNT(DISTINCT hd.MaMayTinh)                 AS SoMayDuocDung
+
+      FROM [HoaDon] hd
+      INNER JOIN [MayTinh] mt ON hd.MaMayTinh = mt.MaMayTinh
+      WHERE
+          CAST(hd.ThoiGianBatDau AS DATE) BETWEEN @TuNgay AND @DenNgay
+          AND (@ViTriPhong IS NULL OR mt.ViTriPhong = @ViTriPhong);
+
+      PRINT N'Truy vấn hoàn tất: từ '
+          + CAST(@TuNgay AS NVARCHAR) + N' đến ' + CAST(@DenNgay AS NVARCHAR)
+          + CASE
+              WHEN @ViTriPhong IS NOT NULL THEN N' — Phòng: ' + @ViTriPhong
+              ELSE N' — Tất cả phòng'
+            END;
+  END;
+  GO
+
+  EXEC sp_NapTienTaiKhoan @MaThanhVien = 1, @SoTienNap = 500000;
+  EXEC sp_NapTienTaiKhoan @MaThanhVien = 1, @SoTienNap = -100;
+  EXEC sp_NapTienTaiKhoan @MaThanhVien = 999, @SoTienNap = 100000;
+  EXEC sp_NapTienTaiKhoan @MaThanhVien = 4, @SoTienNap = 200000;
+  SELECT MaThanhVien, HoTen, SoDuTaiKhoan FROM [ThanhVien] WHERE MaThanhVien = 1;
