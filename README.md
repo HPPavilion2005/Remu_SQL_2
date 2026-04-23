@@ -62,61 +62,61 @@ SQL Server có các nhóm hàm chính:
 
   **LEN: Đếm độ dài chuỗi**
 
-  SELECT LEN(N'Xin chào') AS [ĐộDài];
+    SELECT LEN(N'Xin chào') AS [ĐộDài];
 
   **UPPER/LOWER: Chuyển hoa/thường**
 
-  SELECT UPPER(N'Remu') AS [InHoa], LOWER(N'REMU') AS [InThường];
+    SELECT UPPER(N'Remu') AS [InHoa], LOWER(N'REMU') AS [InThường];
 
   **SUBSTRING: Cắt chuỗi**
 
-  SELECT SUBSTRING(N'SQL Server', 1, 3) AS [KếtQuả];
+    SELECT SUBSTRING(N'SQL Server', 1, 3) AS [KếtQuả];
 
   **CONCAT: Nối chuỗi**
 
-  SELECT CONCAT(N'Họ: ', N'Nguyễn', N' Tên: ', N'Văn A') AS [HọTên];
+    SELECT CONCAT(N'Họ: ', N'Nguyễn', N' Tên: ', N'Văn A') AS [HọTên];
 
   b) Date Functions - Xử lý ngày tháng
 
   **GETDATE: Lấy ngày giờ hiện tại**
 
-  SELECT GETDATE() AS [NgàyGiờHiệnTại];
+    SELECT GETDATE() AS [NgàyGiờHiệnTại];
 
   **DATEADD: Cộng thêm ngày/tháng/năm**
 
-  SELECT DATEADD(DAY, 7, GETDATE()) AS [Sau7Ngày];
+    SELECT DATEADD(DAY, 7, GETDATE()) AS [Sau7Ngày];
 
   **DATEDIFF: Tính khoảng cách giữa 2 ngày**
 
-  SELECT DATEDIFF(YEAR, '2000-01-01', GETDATE()) AS [SốTuổi];
+    SELECT DATEDIFF(YEAR, '2000-01-01', GETDATE()) AS [SốTuổi];
 
   **FORMAT: Định dạng ngày**
 
-  SELECT FORMAT(GETDATE(), 'dd/MM/yyyy') AS [NgàyViệtNam];
+    SELECT FORMAT(GETDATE(), 'dd/MM/yyyy') AS [NgàyViệtNam];
 
   c) Math Functions - Toán học
 
   **ROUND: Làm tròn**
 
-  SELECT ROUND(8.567, 2) AS [LàmTròn];
+    SELECT ROUND(8.567, 2) AS [LàmTròn];
 
   **CEILING/FLOOR: Làm tròn lên/xuống**
 
-  SELECT CEILING(8.1) AS [LàmTrònLên], FLOOR(8.9) AS [LàmTrònXuống];
+    SELECT CEILING(8.1) AS [LàmTrònLên], FLOOR(8.9) AS [LàmTrònXuống];
 
   **ABS: Giá trị tuyệt đối**
 
-  SELECT ABS(-100) AS [GiáTrịTuyệtĐối];
+    SELECT ABS(-100) AS [GiáTrịTuyệtĐối];
 
   d) Aggregate Functions - Tổng hợp
 
   **COUNT, SUM, AVG, MIN, MAX**
 
-  SELECT
-      COUNT(*) AS [TổngSốBảnGhi],
-      AVG([Điểm]) AS [ĐiểmTrungBình],
-      MAX([Điểm]) AS [ĐiểmCaoNhất]
-  FROM [BảngĐiểm];
+    SELECT
+        COUNT(*) AS [TổngSốBảnGhi],
+        AVG([Điểm]) AS [ĐiểmTrungBình],
+        MAX([Điểm]) AS [ĐiểmCaoNhất]
+    FROM [BảngĐiểm];
 
   ### 2. Tại sao cần User-Defined Functions?
 
