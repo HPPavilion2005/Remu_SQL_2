@@ -353,3 +353,32 @@ Sơ đồ nghiệp vụ:
 
 ![27](images/27.png)
 
+**INSERT hóa đơn → Trigger tự chuyển máy**
+
+![28](images/28.png)
+
+**UPDATE hóa đơn (khách rời) → Trigger tự trả máy**
+
+![29](images/29.png)
+
+**Trường hợp bị từ chối**
+
+![30](images/30.png)
+
+### THÍ NGHIỆM TRIGGER VÒNG LẶP — BẢNG A ↔ BẢNG B
+
+Bài toán
+
+    Thử viết:
+    - Trigger trên HoaDon (Bảng A): Khi INSERT → UPDATE MayTinh (Bảng B)
+    - Trigger trên MayTinh (Bảng B): Khi UPDATE → UPDATE ngược HoaDon (Bảng A)
+    Mục đích: Quan sát chuyện gì xảy ra khi 2 trigger "gọi nhau".
+
+Trigger trên Bảng A (HoaDon) — đã có ở trên
+
+Trigger trên Bảng B (MayTinh) — trigger ngược
+
+![31](images/31.png)
+
+*Code vòng lặp*
+

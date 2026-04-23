@@ -599,3 +599,45 @@ CREATE TRIGGER trg_HoaDon_Insert_CapNhatMay
   SELECT MaMayTinh, TenMayTinh, TrangThaiMay
   FROM [MayTinh]
   WHERE MaMayTinh = 102; 
+
+  INSERT INTO [HoaDon]
+      ([MaThanhVien], [MaMayTinh], [ThoiGianBatDau], [GiaThueThucTe])
+  VALUES
+      (5, 102, GETDATE(), 35000);
+  SELECT MaMayTinh, TenMayTinh, TrangThaiMay
+  FROM [MayTinh]
+  WHERE MaMayTinh = 102;
+
+  DECLARE @HD INT = (SELECT MAX(MaHoaDon) FROM [HoaDon] WHERE MaMayTinh = 102);
+
+  UPDATE [HoaDon]
+  SET ThoiGianKetThuc = GETDATE(),
+      SoGioSuDung = 2.5,
+      TongTienCanThanhToan = 87500,
+      TrangThaiThanhToan = N'Da_Thanh_Toan'
+  WHERE MaHoaDon = @HD;
+
+  SELECT MaMayTinh, TenMayTinh, TrangThaiMay
+  FROM [MayTinh]
+  WHERE MaMayTinh = 102;
+
+  INSERT INTO [HoaDon]
+      ([MaThanhVien], [MaMayTinh], [ThoiGianBatDau], [GiaThueThucTe])
+  VALUES
+      (5, 104, GETDATE(), 40000);
+GO
+
+CREATE TRIGGER trg_MayTinh_Update_GhiChuHoaDon
+  ON [MayTinh]
+  AFTER UPDATE
+  AS
+  BEGIN
+      SET NOCOUNT ON;
+      UPDATE hd
+      SET hd.GhiChu = N'Máy đã chuyển trạng thái: ' + i.TrangThaiMay
+      FROM [HoaDon] hd
+      INNER JOIN INSERTED i ON hd.MaMayTinh = i.MaMayTinh
+      WHERE hd.ThoiGianKetThuc IS NULL; 
+      PRINT N'Trigger MayTinh: Đã cập nhật ghi chú hóa đơn.';
+  END;
+  GO
