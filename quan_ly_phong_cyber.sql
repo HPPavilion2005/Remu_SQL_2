@@ -678,3 +678,243 @@ CREATE TRIGGER trg_VONG_LAP_A
       INNER JOIN INSERTED i ON hd.MaMayTinh = i.MaMayTinh;
   END;
   GO
+
+  SET STATISTICS TIME ON;
+  DECLARE @ThoiGianBatDau DATETIME = GETDATE();
+  DECLARE @MaTV          INT;
+  DECLARE @HoTen         NVARCHAR(100);
+  DECLARE @NgayThamGia   DATE;
+
+  DECLARE @TongTien      DECIMAL(12,2);
+  DECLARE @TongGio       DECIMAL(8,2);
+  DECLARE @SoLan         INT;
+  DECLARE @Hang          NVARCHAR(20);
+  DECLARE @GhiChuMoi     NVARCHAR(500);
+  DECLARE @SoNgayThamGia INT;
+  DECLARE @DemTV         INT = 0;
+
+  DECLARE cur_ThanhVien CURSOR
+      LOCAL          
+      FAST_FORWARD   
+  FOR
+      SELECT MaThanhVien, HoTen, NgayThamGia
+      FROM [ThanhVien]
+      WHERE TrangThaiTaiKhoan = N'Hoat_Dong'
+      ORDER BY MaThanhVien;
+  OPEN cur_ThanhVien;
+  FETCH NEXT FROM cur_ThanhVien
+  INTO @MaTV, @HoTen, @NgayThamGia;
+  WHILE @@FETCH_STATUS = 0 
+  BEGIN
+      SET @DemTV = @DemTV + 1;
+      SELECT
+          @TongTien = ISNULL(SUM(CASE
+              WHEN TrangThaiThanhToan = 'Da_Thanh_Toan'
+              THEN TongTienCanThanhToan ELSE 0 END), 0),
+          @TongGio  = ISNULL(SUM(SoGioSuDung), 0),
+          @SoLan    = COUNT(MaHoaDon)
+      FROM [HoaDon]
+      WHERE MaThanhVien = @MaTV;
+      SET @SoNgayThamGia = DATEDIFF(DAY, @NgayThamGia, GETDATE());
+      SET @Hang = CASE
+          WHEN @TongTien >= 1000000 THEN N'VIP'
+          WHEN @TongTien >= 500000  THEN N'Vàng'
+          WHEN @TongTien >= 100000  THEN N'Bạc'
+          ELSE N'Thường'
+      END;
+      SET @GhiChuMoi =
+          N'[' + @Hang + N'] '
+          + N'Chi: ' + FORMAT(@TongTien, 'N0') + N'đ | '
+          + N'Giờ: ' + CAST(@TongGio AS NVARCHAR) + N'h | '
+          + N'Lần: ' + CAST(@SoLan AS NVARCHAR) + N' | '
+          + N'Thâm niên: ' + CAST(@SoNgayThamGia AS NVARCHAR) + N' ngày';
+      UPDATE [ThanhVien]
+      SET GhiChu = @GhiChuMoi
+      WHERE MaThanhVien = @MaTV;
+      PRINT N'  TV ' + CAST(@MaTV AS NVARCHAR)
+          + N' | ' + @HoTen
+          + N' → ' + @GhiChuMoi;
+      FETCH NEXT FROM cur_ThanhVien
+      INTO @MaTV, @HoTen, @NgayThamGia;
+  END;
+  CLOSE cur_ThanhVien;
+  DEALLOCATE cur_ThanhVien;
+  DECLARE @ThoiGianKetThuc DATETIME = GETDATE();
+
+  PRINT N'';
+  PRINT N'══════════════════════════════════════════════';
+  PRINT N'CURSOR: Đã xử lý ' + CAST(@DemTV AS NVARCHAR) + N' thành viên';
+  PRINT N'Thời gian: '
+      + CAST(DATEDIFF(MILLISECOND, @ThoiGianBatDau, @ThoiGianKetThuc) AS NVARCHAR)
+      + N' ms';
+  PRINT N'══════════════════════════════════════════════';
+
+  SET STATISTICS TIME OFF;
+
+  SET STATISTICS TIME ON;
+  DECLARE @BatDau DATETIME = GETDATE();
+  UPDATE tv
+  SET tv.GhiChu =
+      N'['
+      + CASE
+          WHEN ISNULL(thongke.TongTien, 0) >= 1000000 THEN N'VIP'
+          WHEN ISNULL(thongke.TongTien, 0) >= 500000  THEN N'Vàng'
+          WHEN ISNULL(thongke.TongTien, 0) >= 100000  THEN N'Bạc'
+          ELSE N'Thường'
+        END
+      + N'] '
+      + N'Chi: ' + FORMAT(ISNULL(thongke.TongTien, 0), 'N0') + N'đ | '
+      + N'Giờ: ' + CAST(ISNULL(thongke.TongGio, 0) AS NVARCHAR) + N'h | '
+      + N'Lần: ' + CAST(ISNULL(thongke.SoLan, 0) AS NVARCHAR) + N' | '
+      + N'Thâm niên: '
+      + CAST(DATEDIFF(DAY, tv.NgayThamGia, GETDATE()) AS NVARCHAR) + N' ngày'
+
+  FROM [ThanhVien] tv
+  LEFT JOIN (
+      SELECT
+          MaThanhVien,
+          SUM(CASE
+              WHEN TrangThaiThanhToan = 'Da_Thanh_Toan'
+              THEN TongTienCanThanhToan ELSE 0
+          END)                  AS TongTien,
+          SUM(SoGioSuDung)      AS TongGio,
+          COUNT(MaHoaDon)       AS SoLan
+      FROM [HoaDon]
+      GROUP BY MaThanhVien
+  ) thongke ON tv.MaThanhVien = thongke.MaThanhVien
+
+  WHERE tv.TrangThaiTaiKhoan = N'Hoat_Dong';
+  DECLARE @KetThuc DATETIME = GETDATE();
+
+  PRINT N'══════════════════════════════════════════════';
+  PRINT N'SET-BASED: Đã xử lý xong';
+  PRINT N'Thời gian: '
+      + CAST(DATEDIFF(MILLISECOND, @BatDau, @KetThuc) AS NVARCHAR)
+      + N' ms';
+  PRINT N'══════════════════════════════════════════════';
+
+  SET STATISTICS TIME OFF;
+
+  SELECT MaThanhVien, HoTen, GhiChu
+  FROM [ThanhVien]
+  WHERE TrangThaiTaiKhoan = N'Hoat_Dong'
+  ORDER BY MaThanhVien;
+  GO
+
+DECLARE @MaTV_Outer    INT;
+  DECLARE @HoTen_Outer   NVARCHAR(100);
+  DECLARE @SoDuBanDau    DECIMAL(10,2);
+
+  DECLARE cur_TV CURSOR LOCAL FAST_FORWARD FOR
+      SELECT MaThanhVien, HoTen, SoDuTaiKhoan
+      FROM [ThanhVien]
+      WHERE TrangThaiTaiKhoan = N'Hoat_Dong'
+      ORDER BY MaThanhVien;
+
+  OPEN cur_TV;
+  FETCH NEXT FROM cur_TV INTO @MaTV_Outer, @HoTen_Outer, @SoDuBanDau;
+
+  WHILE @@FETCH_STATUS = 0
+  BEGIN
+      PRINT N'';
+      PRINT N'══════════════════════════════════════════════════════';
+      PRINT N'👤 ' + @HoTen_Outer + N' (Mã: '
+          + CAST(@MaTV_Outer AS NVARCHAR) + N')'
+          + N' — Số dư ban đầu: ' + FORMAT(@SoDuBanDau, 'N0') + N'đ';
+      PRINT N'──────────────────────────────────────────────────────';
+
+      DECLARE @SoDuHienTai    DECIMAL(12,2) = @SoDuBanDau;
+      DECLARE @DaNoBaoGio     BIT = 0;      -- Đã từng nợ chưa?
+      DECLARE @LanNoĐauTien   DATETIME;
+      DECLARE @SoLanNo        INT = 0;
+      DECLARE @TienNoMax      DECIMAL(12,2) = 0;
+      DECLARE @STT            INT = 0;
+
+      DECLARE @MaHD           INT;
+      DECLARE @ThoiGianBD     DATETIME;
+      DECLARE @TongTien       DECIMAL(10,2);
+      DECLARE @TrangThai      NVARCHAR(20);
+      DECLARE @TenMay         NVARCHAR(50);
+
+      DECLARE cur_HD CURSOR LOCAL FAST_FORWARD FOR
+          SELECT
+              hd.MaHoaDon,
+              hd.ThoiGianBatDau,
+              ISNULL(hd.TongTienCanThanhToan, 0),
+              hd.TrangThaiThanhToan,
+              mt.TenMayTinh
+          FROM [HoaDon] hd
+          INNER JOIN [MayTinh] mt ON hd.MaMayTinh = mt.MaMayTinh
+          WHERE hd.MaThanhVien = @MaTV_Outer
+          ORDER BY hd.ThoiGianBatDau ASC;
+
+      OPEN cur_HD;
+      FETCH NEXT FROM cur_HD INTO @MaHD, @ThoiGianBD, @TongTien, @TrangThai, @TenMay;
+
+      WHILE @@FETCH_STATUS = 0
+      BEGIN
+          SET @STT = @STT + 1;
+
+          DECLARE @SoDuTruoc DECIMAL(12,2) = @SoDuHienTai;
+
+          IF @TrangThai = N'Da_Thanh_Toan'
+              SET @SoDuHienTai = @SoDuHienTai - @TongTien;
+          ELSE IF @TrangThai = N'Hoan_Tien'
+              SET @SoDuHienTai = @SoDuHienTai + @TongTien;
+          DECLARE @TrangThaiDong NVARCHAR(10);
+          SET @TrangThaiDong = CASE
+              WHEN @SoDuHienTai < 0 AND @SoDuTruoc >= 0 THEN N' NỢ'
+              WHEN @SoDuHienTai < 0                      THEN N' NỢ'
+              WHEN @SoDuHienTai >= 0 AND @SoDuTruoc < 0  THEN N'HẾT NỢ'
+              ELSE N'OK'
+          END;
+          IF @SoDuHienTai < 0
+          BEGIN
+              SET @SoLanNo = @SoLanNo + 1;
+
+              IF @DaNoBaoGio = 0
+              BEGIN
+                  SET @DaNoBaoGio = 1;
+                  SET @LanNoĐauTien = @ThoiGianBD;
+              END;
+
+              IF ABS(@SoDuHienTai) > @TienNoMax
+                  SET @TienNoMax = ABS(@SoDuHienTai);
+          END;
+          PRINT N'  '
+              + CAST(@STT AS NVARCHAR) + N'. '
+              + N'HD' + CAST(@MaHD AS NVARCHAR) + N' | '
+              + @TenMay + N' | '
+              + CONVERT(NVARCHAR, @ThoiGianBD, 120) + N' | '
+              + @TrangThai + N' | '
+              + FORMAT(@TongTien, 'N0') + N'đ | '
+              + N'Dư: ' + FORMAT(@SoDuHienTai, 'N0') + N'đ '
+              + @TrangThaiDong;
+
+          FETCH NEXT FROM cur_HD INTO @MaHD, @ThoiGianBD, @TongTien, @TrangThai, @TenMay;
+      END;
+
+      CLOSE cur_HD;
+      DEALLOCATE cur_HD;
+      PRINT N'──────────────────────────────────────────────────────';
+      PRINT N' Tổng kết: Dư ban đầu ' + FORMAT(@SoDuBanDau, 'N0')
+          + N'đ → Dư cuối ' + FORMAT(@SoDuHienTai, 'N0') + N'đ';
+
+      IF @DaNoBaoGio = 1
+          PRINT N' CẢNH BÁO: Đã nợ ' + CAST(@SoLanNo AS NVARCHAR) + N' lần'
+              + N' | Nợ max: ' + FORMAT(@TienNoMax, 'N0') + N'đ'
+              + N' | Nợ đầu tiên: ' + CONVERT(NVARCHAR, @LanNoĐauTien, 120);
+      ELSE
+          PRINT N' Chưa từng nợ.';
+
+      SET @SoDuHienTai = 0;
+      SET @DaNoBaoGio = 0;
+      SET @SoLanNo = 0;
+      SET @TienNoMax = 0;
+      SET @STT = 0;
+
+      FETCH NEXT FROM cur_TV INTO @MaTV_Outer, @HoTen_Outer, @SoDuBanDau;
+  END;
+
+  CLOSE cur_TV;
+  DEALLOCATE cur_TV;

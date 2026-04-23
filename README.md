@@ -464,3 +464,57 @@ Vòng đời của CURSOR
     DECLARE  →  OPEN  →  FETCH NEXT  →  WHILE  →  CLOSE  →  DEALLOCATE
     (khai       (mở      (lấy dòng     (lặp      (đóng     (giải phóng
     báo)       cursor)   đầu tiên)     xử lý)    cursor)    bộ nhớ)
+
+### 2. Bài toán dùng Cursor - Tính và phân hạng từng thành viên:
+
+Bài toán nghiệp vụ:
+
+    Duyệt qua từng thành viên đang hoạt động, tính tổng tiền đã chi, tổng giờ sử dụng, số lần đến → phân hạng → cập nhật cột GhiChu với thông tin chi tiết riêng cho từng người.
+
+![37](images/37.png)
+
+![38](images/38.png)
+
+*Code sử dụng Cursor*
+
+![39](images/39.png)
+
+*Tổng hợp kết quả của code Cursor*
+    TV 1 | Nguyễn Văn An    → [Bạc] Chi: 440,000đ | Giờ: 15.00h | Lần: 3 | Thâm niên: 830 ngày
+    TV 2 | Trần Thị Bích    → [Bạc] Chi: 120,000đ | Giờ: 6.00h | Lần: 2 | Thâm niên: 804 ngày
+    TV 3 | Lê Hoàng Cường   → [VIP] Chi: 1,405,000đ | Giờ: 36.00h | Lần: 5 | Thâm niên: 780 ngày
+    TV 5 | Hoàng Thị Lan    → [Bạc] Chi: 192,000đ | Giờ: 7.00h | Lần: 2 | Thâm niên: 712 ngày
+    TV 6 | Võ Đức Mạnh      → [Vàng] Chi: 590,000đ | Giờ: 19.00h | Lần: 4 | Thâm niên: 692 ngày
+    TV 7 | Đặng Thùy Ngọc   → [Thường] Chi: 30,000đ | Giờ: 2.00h | Lần: 1 | Thâm niên: 645 ngày
+    TV 8 | Bùi Quốc Phong   → [Vàng] Chi: 795,000đ | Giờ: 20.00h | Lần: 3 | Thâm niên: 469 ngày
+    TV 10| Ngô Thanh Sơn    → [Thường] Chi: 0đ | Giờ: 3.00h | Lần: 1 | Thâm niên: 323 ngày
+
+### 3. Bài toàn không dùng Cursor:
+
+![40](images/40.png)
+
+*Code không dùng Cursor*
+
+![41](images/41.png)
+
+*Thông báo hệ thống khi chạy*
+
+![42](images/42.png)
+
+*Kiểm tra kết quả hoàn toàn giống nhau*
+
+### 4. Bài toán chỉ Cursor mới giải quyết được:
+
+Bài toán: Tính số dư lũy kế theo thời gian cho từng thành viên
+
+    Với mỗi thành viên, duyệt qua từng hóa đơn theo thứ tự thời gian, tính số dư còn lại sau mỗi lần thanh toán. 
+    Nếu số dư âm tại bất kỳ thời điểm nào → ghi cảnh báo NỢ kèm thời điểm bắt đầu nợ. 
+    In ra lịch sử biến động chi tiết.
+
+![43](images/43.png)
+
+*Code cho bài toán 4*
+
+![44](images/44.png)
+
+*Kết quả*
