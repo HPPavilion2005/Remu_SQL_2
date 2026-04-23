@@ -8,7 +8,7 @@ Bài tập hệ quản trị cơ sở dữ liệu số 2 | Sinh viên: Chu Trọ
     Phần 3: Xây dựng Store Procedure
     Phần 4: Trigger và Xử lý logic nghiệp vụ
     Phần 5: Cursor và Duyệt dữ liệu
-    
+
 ## Phần 1: Thiết kế và khởi tạo cấu trúc dữ liệu:
 
 Database: Quanlyphonggame_K235480106063
@@ -441,6 +441,8 @@ Giải thích thông báo:
 | Trigger A ↔ B (không điều kiện dừng) | ❌ **Lỗi Msg 217** | Vòng lặp vượt 32 tầng → ROLLBACK |
 | Trigger A → A (recursive, OFF) | ✅ Không chạy lại | `RECURSIVE_TRIGGERS` mặc định OFF |
 | Trigger A → A (recursive, ON) | ⚠️ Nguy hiểm | Tự gọi chính mình → có thể vượt 32 tầng |
+
+-------------------------------------------------------------------------------------------------------
 
 ## Phần 5: Cursor và Duyệt dữ liệu
 
