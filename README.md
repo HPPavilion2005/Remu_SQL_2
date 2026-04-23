@@ -165,12 +165,14 @@ Ta có:
 
     Kiểu DECIMAL(12,2) → tối đa 9,999,999,999.99 (đủ cho phòng game)
 
-Logic xử lý bên trong
+Logic xử lý bên trong:
 
   Bảng [HoaDon]
 
   ├── Cột [MaThanhVien]          →  FK liên kết tới bảng [ThanhVien]
+
   ├── Cột [TongTienCanThanhToan] →  Số tiền của mỗi hóa đơn
+
   └── Cột [TrangThaiThanhToan]   →  'Chua_Thanh_Toan' | 'Da_Thanh_Toan' | 'Hoan_Tien'
   
 ## 2. INLINE TABLE-VALUED FUNCTION (Hàm bảng nội tuyến)
