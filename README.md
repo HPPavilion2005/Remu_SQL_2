@@ -41,3 +41,78 @@ Database: Quanlyphonggame_K235480106063
 [TrangThaiMay]: Chỉ chấp nhận: 'San_Sang', 'Dang_Su_Dung', 'Bao_Tri', 'Hoi_Hang'
 
 [TrangThaiThanhToan]: Chỉ chấp nhận: 'Chua_Thanh_Toan', 'Da_Thanh_Toan', 'Hoan_Tien'
+
+## Phần 2: Xây dựng Function:
+
+### 1. Các loại Built-in Functions trong SQL Server
+
+SQL Server có các nhóm hàm chính:
+
+  a) String Functions - Xử lý chuỗi
+  -- LEN: Đếm độ dài chuỗi
+  SELECT LEN(N'Xin chào') AS [ĐộDài]; -- 8
+
+  -- UPPER/LOWER: Chuyển hoa/thường
+  SELECT UPPER(N'Remu') AS [InHoa], LOWER(N'REMU') AS [InThường];
+
+  -- SUBSTRING: Cắt chuỗi
+  SELECT SUBSTRING(N'SQL Server', 1, 3) AS [KếtQuả]; -- 'SQL'
+
+  -- CONCAT: Nối chuỗi
+  SELECT CONCAT(N'Họ: ', N'Nguyễn', N' Tên: ', N'Văn A') AS [HọTên];
+
+  b) Date Functions - Xử lý ngày tháng
+  -- GETDATE: Lấy ngày giờ hiện tại
+  SELECT GETDATE() AS [NgàyGiờHiệnTại];
+
+  -- DATEADD: Cộng thêm ngày/tháng/năm
+  SELECT DATEADD(DAY, 7, GETDATE()) AS [Sau7Ngày];
+
+  -- DATEDIFF: Tính khoảng cách giữa 2 ngày
+  SELECT DATEDIFF(YEAR, '2000-01-01', GETDATE()) AS [SốTuổi];
+
+  -- FORMAT: Định dạng ngày
+  SELECT FORMAT(GETDATE(), 'dd/MM/yyyy') AS [NgàyViệtNam];
+
+  c) Math Functions - Toán học
+  -- ROUND: Làm tròn
+  SELECT ROUND(8.567, 2) AS [LàmTròn]; -- 8.57
+
+  -- CEILING/FLOOR: Làm tròn lên/xuống
+  SELECT CEILING(8.1) AS [LàmTrònLên], FLOOR(8.9) AS [LàmTrònXuống];
+
+  -- ABS: Giá trị tuyệt đối
+  SELECT ABS(-100) AS [GiáTrịTuyệtĐối];
+
+  d) Aggregate Functions - Tổng hợp
+  -- COUNT, SUM, AVG, MIN, MAX
+  SELECT
+      COUNT(*) AS [TổngSốBảnGhi],
+      AVG([Điểm]) AS [ĐiểmTrungBình],
+      MAX([Điểm]) AS [ĐiểmCaoNhất]
+  FROM [BảngĐiểm];
+
+  ### 2. Tại sao cần User-Defined Functions?
+
+  Mục đích:
+  - Tái sử dụng logic phức tạp
+  - Đóng gói business rules
+  - Làm code dễ đọc, dễ bảo trì
+
+  3 loại chính:
+
+  a) Scalar Function - Trả về 1 giá trị đơn
+  - Dùng khi: Tính toán 1 giá trị từ nhiều tham số (tính tuổi, tính điểm trung bình có trọng số,
+  format dữ liệu đặc biệt)
+
+  b) Inline Table-Valued Function - Trả về bảng (1 câu SELECT)
+  - Dùng khi: Lọc dữ liệu theo điều kiện phức tạp, có thể JOIN với bảng khác
+  - Performance tốt nhất trong 3 loại
+
+  c) Multi-statement Table-Valued Function - Trả về bảng (có logic phức tạp)
+  - Dùng khi: Cần xử lý nhiều bước, dùng biến, vòng lặp trước khi trả kết quả
+
+  Tại sao cần tự viết?
+  - System functions chỉ xử lý logic chung chung
+  - Business logic của mỗi dự án khác nhau (VD: Cách tính lương, cách tính điểm, quy tắc giảm giá
+  riêng)
