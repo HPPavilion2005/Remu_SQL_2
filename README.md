@@ -2,6 +2,13 @@
 
 Bài tập hệ quản trị cơ sở dữ liệu số 2 | Sinh viên: Chu Trọng Tấn - MSSV: K235480106063
 
+## Yêu cầu đề bài:
+    Phần 1: Thiết kế và Khởi tạo Cấu trúc Dữ liệu
+    Phần 2: Xây dựng Function
+    Phần 3: Xây dựng Store Procedure
+    Phần 4: Trigger và Xử lý logic nghiệp vụ
+    Phần 5: Cursor và Duyệt dữ liệu
+    
 ## Phần 1: Thiết kế và khởi tạo cấu trúc dữ liệu:
 
 Database: Quanlyphonggame_K235480106063
