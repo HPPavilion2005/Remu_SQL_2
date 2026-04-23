@@ -434,3 +434,33 @@ Giải thích thông báo:
 | Trigger A ↔ B (không điều kiện dừng) | ❌ **Lỗi Msg 217** | Vòng lặp vượt 32 tầng → ROLLBACK |
 | Trigger A → A (recursive, OFF) | ✅ Không chạy lại | `RECURSIVE_TRIGGERS` mặc định OFF |
 | Trigger A → A (recursive, ON) | ⚠️ Nguy hiểm | Tự gọi chính mình → có thể vượt 32 tầng |
+
+## Phần 5: Cursor và Duyệt dữ liệu
+
+### 1. Cursor là gì?
+
+Cursor là cơ chế cho phép duyệt từng dòng một trong tập kết quả SELECT, thay vì xử lý cả bảng cùng lúc.
+
+  SQL thông thường (Set-based):          CURSOR (Row-by-row):
+
+    ┌──────────────────────┐              ┌──────────────────────┐
+    │  Dòng 1              │              │► Dòng 1 ← xử lý      │
+    │  Dòng 2              │  Xử lý       │  Dòng 2              │
+    │  Dòng 3              │  CÙNG LÚC    │  Dòng 3              │
+    │  Dòng 4              │  ══════►     │  Dòng 4              │
+    │  Dòng 5              │  Kết quả     │  Dòng 5              │
+    └──────────────────────┘              └──────────────────────┘
+                                                    │
+                                                    ▼
+                                        ┌──────────────────────┐
+                                        │  Dòng 1              │
+                                        │► Dòng 2 ← xử lý      │
+                                        │  Dòng 3              │
+                                        │  ...lặp lại...       │
+                                        └──────────────────────┘
+
+Vòng đời của CURSOR
+
+    DECLARE  →  OPEN  →  FETCH NEXT  →  WHILE  →  CLOSE  →  DEALLOCATE
+    (khai       (mở      (lấy dòng     (lặp      (đóng     (giải phóng
+    báo)       cursor)   đầu tiên)     xử lý)    cursor)    bộ nhớ)
