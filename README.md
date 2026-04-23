@@ -277,7 +277,6 @@ Khai thác:
 ### 3. SP - Tham số Output
 
 Bài toán
-
     Tính tiền cho một phiên sử dụng máy khi khách rời đi. SP cần:
     - Cập nhật thời gian kết thúc, số giờ, thành tiền vào bảng HoaDon
     - Trả ra ngoài (OUTPUT) tổng tiền phải thanh toán để hiển thị cho nhân viên
