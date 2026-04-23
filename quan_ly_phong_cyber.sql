@@ -320,3 +320,28 @@ VALUES
 SELECT * FROM ThanhVien;
 SELECT * FROM MayTinh;
 SELECT * FROM HoaDon;
+
+SELECT
+      MaThanhVien,
+      HoTen,
+      dbo.fn_TongTienDaChi(MaThanhVien) AS TongTienDaChi
+FROM [ThanhVien]
+ORDER BY TongTienDaChi DESC;
+
+SELECT *
+    FROM dbo.fn_MayTinhTheoPhong(N'Phong VIP')
+    ORDER BY GiaThueGioTinh ASC;
+
+SELECT
+      ViTriPhong,
+      TongSoMay,
+      MayHoiHang,
+      TyLeSanSang,
+      CASE
+          WHEN TyLeSanSang >= 80 THEN N'Tốt'
+          WHEN TyLeSanSang >= 50 THEN N'Trung bình'
+          ELSE N'Cần xử lý gấp'
+      END AS DanhGia
+  FROM dbo.fn_TinhTrangMayTheoPhong()
+  ORDER BY TyLeSanSang ASC;
+

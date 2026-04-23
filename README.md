@@ -173,5 +173,23 @@ SQL Server có các nhóm hàm chính:
 
 *Dữ liệu của 3 bảng*
 
+**Scalar Function**
+
+![9](images/9.png)
+
+*Tổng chi của từng thành viên*
+
+**Inline Table-Valued Function**
+
+![10](images/10.png)
+
+*Danh sách máy Phòng VIP*
+
+**Multi-Statement Table-Valued Function**
+
+![11](images/11.png)
+
+*Phòng cần xử lý gấp (tỷ lệ sẵn sàng < 50%)*
+
 
 
