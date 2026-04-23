@@ -196,12 +196,12 @@ VALUES
       (N'P2-04',  '192.168.3.4',  N'Phong 2',   19000.000, 22000, 2024, N'Hoi_Hang',     '2025-11-15',
   N'Chờ thay linh kiện');
 
-  INSERT INTO [HoaDon]
+INSERT INTO [HoaDon]
       ([MaThanhVien], [MaMayTinh], [ThoiGianBatDau], [ThoiGianKetThuc],
        [SoGioSuDung], [GiaThueThucTe], [ThanhTienDichVu], [SoTienDichVuThem],
        [TongTienCanThanhToan], [TrangThaiThanhToan], [NguoiThanhToan],
        [NgayThanhToan], [PhuongThucThanhToan], [GhiChu])
-  VALUES
+VALUES
       -- ══ Thành viên 1 (Nguyễn Văn An) — 3 hóa đơn ══
       (1, 101, '2026-01-10 08:00', '2026-01-10 13:00',
        5.00, 35000, 175000, 25000,
@@ -316,3 +316,7 @@ VALUES
        NULL, 20000, NULL, NULL,
        NULL, N'Chua_Thanh_Toan', NULL,
        NULL, NULL, N'Đang sử dụng');
+
+SELECT * FROM ThanhVien;
+SELECT * FROM MayTinh;
+SELECT * FROM HoaDon;

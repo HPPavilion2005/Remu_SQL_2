@@ -167,7 +167,11 @@ SQL Server có các nhóm hàm chính:
 
 *Code Multi-Statement Table-Valued Function*
 
+### 6. Khai thác 3 hàm trên:
 
+![8](images/8.png)
+
+*Dữ liệu của 3 bảng*
 
 
 
