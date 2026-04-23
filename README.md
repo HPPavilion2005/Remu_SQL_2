@@ -236,22 +236,44 @@ Stored Procedure (SP) là một khối lệnh SQL được lưu sẵn trong data
 
 Bài toán
 
-    ▎ Nạp tiền vào tài khoản thành viên. Cần kiểm tra:
-    ▎ - Thành viên có tồn tại không?
-    ▎ - Tài khoản có đang hoạt động không?
-    ▎ - Số tiền nạp có hợp lệ không (> 0)?
+    Nạp tiền vào tài khoản thành viên. Cần kiểm tra:
+    - Thành viên có tồn tại không?
+    - Tài khoản có đang hoạt động không?
+    - Số tiền nạp có hợp lệ không (> 0)?
 
 ![12](images/12.png)
 
 *Code Insert/Update*
 
+Khai thác:
+
+**Trường hợp thành công**
+
+![16](images/16.png)
+
+**Trường hợp lỗi 1: Số tiền âm**
+
+![17](images/17.png)
+
+**Trường hợp lỗi 2: Thành viên không tồn tại**
+
+![18](images/18.png)
+
+**Trường hợp lỗi 3: TK bị khóa (TV mã 4 — Binh_Ngo)**
+
+![19](images/19.png)
+
+**Kiểm tra lại số dư sau khi nạp**
+
+![20](images/20.png)
+
 ### 3. SP - Tham số Output
 
 Bài toán
 
-    ▎ Tính tiền cho một phiên sử dụng máy khi khách rời đi. SP cần:
-    ▎ - Cập nhật thời gian kết thúc, số giờ, thành tiền vào bảng HoaDon
-    ▎ - Trả ra ngoài (OUTPUT) tổng tiền phải thanh toán để hiển thị cho nhân viên
+    Tính tiền cho một phiên sử dụng máy khi khách rời đi. SP cần:
+    - Cập nhật thời gian kết thúc, số giờ, thành tiền vào bảng HoaDon
+    - Trả ra ngoài (OUTPUT) tổng tiền phải thanh toán để hiển thị cho nhân viên
 
 ![13](images/13.png)
 
@@ -261,11 +283,16 @@ Bài toán
 
 Bài toán
 
-    ▎ Xem lịch sử sử dụng chi tiết: thông tin thành viên + máy đã dùng + hóa đơn. Lọc theo khoảng thời
-    ▎ gian và tùy chọn theo phòng.
+    Xem lịch sử sử dụng chi tiết: thông tin thành viên + máy đã dùng + hóa đơn. Lọc theo khoảng thời
+    gian và tùy chọn theo phòng.
 
 ![14](images/14.png)
 
 ![15](images/15.png)
+
+*Code Result set*
+
+
+
 
 
