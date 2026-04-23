@@ -42,6 +42,8 @@ Database: Quanlyphonggame_K235480106063
 
 [TrangThaiThanhToan]: Chỉ chấp nhận: 'Chua_Thanh_Toan', 'Da_Thanh_Toan', 'Hoan_Tien'
 
+-----------------------------------------------------------
+
 ## Phần 2: Xây dựng Function:
 
 ### 1. Các loại Built-in Functions trong SQL Server
