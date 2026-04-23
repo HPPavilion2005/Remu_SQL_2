@@ -279,12 +279,21 @@ Bài toán
 
 *Code có tham số output*
 
+Khai thác:
+
+![21](images/21.png)
+
+*Trường hợp thành công*
+
+**Trường hợp lỗi: hóa đơn không tồn tại**
+
+![22](images/22.png)
+
 ### 4. SP trả về Result set - Join nhiều bảng
 
 Bài toán
 
-    Xem lịch sử sử dụng chi tiết: thông tin thành viên + máy đã dùng + hóa đơn. Lọc theo khoảng thời
-    gian và tùy chọn theo phòng.
+    Xem lịch sử sử dụng chi tiết: thông tin thành viên + máy đã dùng + hóa đơn. Lọc theo khoảng thời gian và tùy chọn theo phòng.
 
 ![14](images/14.png)
 
@@ -292,6 +301,19 @@ Bài toán
 
 *Code Result set*
 
+Khai thác:
+
+**Xem tất cả phiên trong tháng 1/2026**
+
+![23](images/23.png)
+
+**Ngày không hợp lệ**
+
+![24](images/24.png)
+
+----------------------------------------------
+
+## Phần 4: Trigger và Xử lý logic nghiệp vụ
 
 
 

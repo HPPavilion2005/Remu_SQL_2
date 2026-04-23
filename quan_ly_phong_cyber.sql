@@ -532,3 +532,25 @@ CREATE PROCEDURE sp_LichSuSuDungChiTiet
   EXEC sp_NapTienTaiKhoan @MaThanhVien = 999, @SoTienNap = 100000;
   EXEC sp_NapTienTaiKhoan @MaThanhVien = 4, @SoTienNap = 200000;
   SELECT MaThanhVien, HoTen, SoDuTaiKhoan FROM [ThanhVien] WHERE MaThanhVien = 1;
+
+DECLARE @TienPhaiTra DECIMAL(10,2);
+EXEC sp_TinhTienPhien
+    @MaHoaDon          = 1021,         -- Hóa đơn của TV 3 đang dùng VIP-01
+    @TongTienThanhToan  = @TienPhaiTra OUTPUT;
+PRINT N'';
+  PRINT N'══════════════════════════════════';
+  PRINT N'Nhân viên thu: ' + CAST(@TienPhaiTra AS NVARCHAR) + N' VNĐ';
+  PRINT N'══════════════════════════════════';
+IF @TienPhaiTra > 500000
+      PRINT N'→ Khách VIP — tặng nước miễn phí!';
+
+DECLARE @Tien DECIMAL(10,2);
+  EXEC sp_TinhTienPhien @MaHoaDon = 9999, @TongTienThanhToan = @Tien OUTPUT;
+  PRINT N'Giá trị OUTPUT nhận được: ' + CAST(@Tien AS NVARCHAR);
+
+ EXEC sp_LichSuSuDungChiTiet
+      @TuNgay  = '2026-01-01',
+      @DenNgay = '2026-01-31';
+ EXEC sp_LichSuSuDungChiTiet
+      @TuNgay  = '2026-12-31',
+      @DenNgay = '2026-01-01';
