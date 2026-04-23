@@ -22,3 +22,22 @@ Database: Quanlyphonggame_K235480106063
 
 ![4](images/4.png)
 
+### Khoá ngoại (FK):
+
+[MaThanhVien] trong bảng [HoaDon] → Tham chiếu đến [ThanhVien]([MaThanhVien])
+
+[MaMayTinh] trong bảng [HoaDon] → Tham chiếu đến [MayTinh]([MaMayTinh])
+
+* ON DELETE CASCADE: Nếu xóa thành viên, xóa luôn các hoá đơn của thành viên đó
+
+### CHECK CONSTRAINT (CK) - Ràng buộc kiểm tra:
+
+[TrangThaiTaiKhoan]: Chỉ chấp nhận: 'Hoat_Dong', 'Binh_Ngo', hoặc 'Khoai_Hoan'
+
+[GiaThueGioTinh]: Phải > 0 (không thể có giá âm)
+
+[NamPhatHanhMay]: Phải nằm trong khoảng 2010-2030
+
+[TrangThaiMay]: Chỉ chấp nhận: 'San_Sang', 'Dang_Su_Dung', 'Bao_Tri', 'Hoi_Hang'
+
+[TrangThaiThanhToan]: Chỉ chấp nhận: 'Chua_Thanh_Toan', 'Da_Thanh_Toan', 'Hoan_Tien'
