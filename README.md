@@ -149,33 +149,23 @@ SQL Server có các nhóm hàm chính:
 
 ![5](images/5.png)
 
-*Code scalar function*
-
-Ta có:
-
-    Input: @MaThanhVien INT →  Mã của thành viên cần tra cứu
-
-    Đây là khóa chính của bảng [ThanhVien]
-
-    Dùng để lọc đúng hóa đơn thuộc về thành viên đó trong bảng [HoaDon]
-
-    Output:  RETURNS DECIMAL(12,2) →  Một con số tiền duy nhất
-
-    Trả về tổng số tiền mà thành viên đó đã thanh toán thành công
-
-    Kiểu DECIMAL(12,2) → tối đa 9,999,999,999.99
-
-Logic xử lý bên trong:
-
-    Bảng [HoaDon]
-
-    ├── Cột [MaThanhVien]          →  FK liên kết tới bảng [ThanhVien]
-
-    ├── Cột [TongTienCanThanhToan] →  Số tiền của mỗi hóa đơn
-
-    └── Cột [TrangThaiThanhToan]   →  'Chua_Thanh_Toan' | 'Da_Thanh_Toan' | 'Hoan_Tien'
+*Code Scalar Function*
   
-## 2. INLINE TABLE-VALUED FUNCTION (Hàm bảng nội tuyến)
+### 4. INLINE TABLE-VALUED FUNCTION (Hàm bảng nội tuyến)
+
+  **Lấy danh sách máy tính theo vị trí phòng**
+
+![6](images/6.png)
+
+*Code Inline Table-Value Function*
+
+### 5. MULTI-STATEMENT TABLE-VALUED FUNCTION (Hàm bảng nhiều câu lệnh)
+
+  **Báo cáo tình trạng máy tính theo phòng**
+
+![7](images/7.png)
+
+*Code Multi-Statement Table-Valued Function*
 
 
 
